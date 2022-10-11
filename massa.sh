@@ -93,7 +93,7 @@ do
 		echo ============================================================================================
 		echo === Your Public Key $my_wallet_addr Ваш публичный адрес ===
 		echo ============================================================================================
-		balance=$(./massa-client wallet_info -p $pass | grep "Sequential balance:" | awk '{ print $3 }'|sed "s/final=//;s/,//")
+		balance=$(./massa-client wallet_info -p $pass | grep "Balance:" | awk '{ print $2 }'|sed "s/final=//;s/,//")
 		int_balance=${balance%%.*}
 		date		
 		
