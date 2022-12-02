@@ -1,32 +1,35 @@
 ---
 version: "2.0"
+endpoints:
+  YOUR_ENDPOINT_NAME:  # WARRING! SELECT UNIQ ENDPOINT NAME!
+    kind: ip
 services:
   app:
-    image: ubuntu:latest
+    image: ubuntu:22.04
     expose:
       - port: 80
         as: 80
         proto: tcp
         to:
-          - global: true
-            
+          - global: true            
       - port: 22
         as: 22
         proto: tcp
         to:
           - global: true
-
       - port: 31244
         as: 31244
         proto: tcp
         to:
           - global: true
-
+            ip: YOUR_ENDPOINT_NAME # ENDPOINT NAME FROM STRING 4
       - port: 31245
         as: 31245
         proto: tcp
         to:
           - global: true
+            ip: YOUR_ENDPOINT_NAME # ENDPOINT NAME FROM STRING 4
+        
     env:
      - "my_discord_id="
      - "my_wallet_privkey=" #Massa wallet privat key
