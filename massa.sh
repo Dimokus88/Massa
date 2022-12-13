@@ -66,7 +66,7 @@ EOF
 chmod +x /massa/massa-node/log/run
 ln -s /massa/massa-node /etc/service
 cd /massa/massa-client/
-status=`/massa/massa-client/.massa-client get_status -p $pass`
+status=`/massa/massa-client/massa-client get_status -p $pass`
 
 while [[ $status == $error ]]
 do
@@ -74,37 +74,37 @@ echo ==== Нода не подключена, ожидайте.. =====
 echo ===== Node is not connected, wait.. =====
 echo $status
 sleep 2m
-status=`/massa/massa-client/.massa-client get_status -p $pass`
+status=`/massa/massa-client/massa-client get_status -p $pass`
 done
 
 chmod +x massa-client
-/massa/massa-client/.massa-client wallet_add_secret_keys $my_wallet_privkey -p $pass
+/massa/massa-client/massa-client wallet_add_secret_keys $my_wallet_privkey -p $pass
 sleep 10
-/massa/massa-client/.massa-client wallet_info -p $pass
+/massa/massa-client/massa-client wallet_info -p $pass
 sleep 10
 for ((;;))
 do	
-		/massa/massa-client/.massa-client node_add_staking_secret_keys $my_wallet_privkey -p $pass
+		/massa/massa-client/massa-client node_add_staking_secret_keys $my_wallet_privkey -p $pass
 		
-		synh=`/massa/massa-client/.massa-client get_status -p $pass | grep "Version" | awk '{ print $2 }'`  
-		my_wallet_addr=`/massa/massa-client/.massa-client wallet_info -p $pass | grep "Address" | awk '{ print $2 }'`
+		synh=`/massa/massa-client/massa-client get_status -p $pass | grep "Version" | awk '{ print $2 }'`  
+		my_wallet_addr=`/massa/massa-client/massa-client wallet_info -p $pass | grep "Address" | awk '{ print $2 }'`
 		
 		if [[ $discord == 1 ]]
 		then
-			discord=`/massa/massa-client/.massa-client node_testnet_rewards_program_ownership_proof $my_wallet_addr $my_discord_id -p $pass`
+			discord=`/massa/massa-client/massa-client node_testnet_rewards_program_ownership_proof $my_wallet_addr $my_discord_id -p $pass`
 		fi
 		echo =================================Send to MassaBot==========================================
 		echo $discord
 		echo ============================================================================================
 		echo === Your Public Key $my_wallet_addr Ваш публичный адрес ===
 		echo ============================================================================================
-		balance=$(/massa/massa-client/.massa-client wallet_info -p $pass | grep "Balance:" | awk '{ print $2 }'|sed "s/final=//;s/,//")
+		balance=$(/massa/massa-client/massa-client wallet_info -p $pass | grep "Balance:" | awk '{ print $2 }'|sed "s/final=//;s/,//")
 		int_balance=${balance%%.*}
 		date		
 		
 		if [[ "$int_balance" -gt "99" ]] ; then
 			echo "More than 99. Баланс токенов более 99. "
-			resp=$(/massa/massa-client/.massa-client buy_rolls $my_wallet_addr $(($int_balance/100)) 0 -p $pass)
+			resp=$(/massa/massa-client/massa-client buy_rolls $my_wallet_addr $(($int_balance/100)) 0 -p $pass)
 			echo $resp
 		elif [[ "$int_balance" -lt "100" ]] ; then
 			echo "Less than 100. Баланс токенов менее 100."
